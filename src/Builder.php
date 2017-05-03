@@ -28,7 +28,7 @@ class Builder
     /**
      * @var string
      */
-    protected $columnField = 'data'; // or 'name'
+    protected $columnField = 'name'; // or 'name'
 
     /**
      * @var string
@@ -56,12 +56,13 @@ class Builder
         if (array_key_exists('order', $this->requestParams)) {
             $order = &$this->requestParams['order'];
             foreach ($order as $sort) {
-                $column = &$columns[intval($sort['column'])];
-                if (array_key_exists($column[$this->columnField], $this->columnAliases)) {
-                    $column[$this->columnField] = $this->columnAliases[$column[$this->columnField]];
+                $column = $sort['column'];
+                if (array_key_exists($column, $this->columnAliases)) {
+                    $column = $this->columnAliases[$column];
                 }
-                $query->addOrderBy($column[$this->columnField], $sort['dir']);
+                $query->addOrderBy($column, $sort['dir']);
             }
+
         }
         // Offset
         if (array_key_exists('start', $this->requestParams)) {
