@@ -153,12 +153,12 @@ class Builder
         $query = $this->getFilteredQuery();
         if ($query instanceof ORMQueryBuilder) {
             return $query->resetDQLPart('select')
-                ->select("COUNT({$this->indexColumn})")
+                ->select("COUNT(DISTINCT({$this->indexColumn}))")
                 ->getQuery()
                 ->getSingleScalarResult();
         } else {
             return $query->resetQueryPart('select')
-                ->select("COUNT({$this->indexColumn})")
+                ->select("COUNT(DISTINCT({$this->indexColumn}))")
                 ->execute()
                 ->fetchColumn(0);
         }
@@ -172,12 +172,12 @@ class Builder
         $query = clone $this->queryBuilder;
         if ($query instanceof ORMQueryBuilder) {
             return $query->resetDQLPart('select')
-                ->select("COUNT({$this->indexColumn})")
+                ->select("COUNT(DISTINCT({$this->indexColumn}))")
                 ->getQuery()
                 ->getSingleScalarResult();
         } else {
             return $query->resetQueryPart('select')
-                ->select("COUNT({$this->indexColumn})")
+                ->select("COUNT(DISTINCT({$this->indexColumn}))")
                 ->execute()
                 ->fetchColumn(0);
         }
