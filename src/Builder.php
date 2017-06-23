@@ -12,6 +12,7 @@
 namespace Doctrine\DataTables;
 
 use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder as ORMQueryBuilder;
 
 /**
@@ -76,8 +77,19 @@ class Builder
             }
         }
         // Fetch
-        return $query instanceof ORMQueryBuilder ?
-            $query->getQuery()->getArrayResult() : $query->execute()->fetchAll();
+        if ($query instanceof ORMQueryBuilder) {
+            $paginatorQuery = $query->getQuery();
+        } else {
+            $paginatorQuery = $query;
+        }
+
+        $paginatorQuery->setHydrationMode(Query::HYDRATE_ARRAY);
+        $paginator = new Paginator($paginatorQuery);
+        $result = [];
+        foreach ($paginator as $item) {
+            $result[] = $item;
+        }
+        return $result;
     }
 
     /**
