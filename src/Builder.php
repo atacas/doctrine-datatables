@@ -14,6 +14,8 @@ namespace Doctrine\DataTables;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder as ORMQueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+
 
 /**
  * Class Builder
